@@ -1,0 +1,451 @@
+html, body {
+  min-height: 100%;
+  height: auto;
+  overflow-y: auto;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;   /* stack from the top, not vertically centered */
+  padding: 2rem 0;            /* breathing room above & below */
+}
+
+/* Home button */
+.home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.home-btn:hover {
+  background: rgba(255, 215, 0, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Coin Flip Styles */
+.coinflip-container {
+  z-index: 2;
+  width: 90%;
+  max-width: 800px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balance-display {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.balance-label {
+  color: #aaa;
+}
+
+.balance-amount {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.coinflip-machine {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7),
+              inset 0 0 30px rgba(255, 215, 0, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.coinflip-machine::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 215, 0, 0.8), 
+    transparent);
+  animation: lightPass 3s infinite linear;
+}
+
+@keyframes lightPass {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.coin-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  margin-bottom: 2rem;
+  position: relative;
+  padding: 1rem 0;
+}
+
+.coin-area::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0.8) 0%, 
+    transparent 20%, 
+    transparent 80%, 
+    rgba(0, 0, 0, 0.8) 100%);
+  pointer-events: none;
+}
+
+.coin {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease;
+  z-index: 1;
+}
+
+.coin-side {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  border: 4px solid #b8860b;
+  box-shadow: 
+    0 0 20px rgba(255,215,0,0.4),
+    inset 0 0 20px rgba(0,0,0,0.3);
+  backface-visibility: hidden;
+}
+
+.coin-side.heads {
+  background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
+  color: #8b4513;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.coin-side.tails {
+  background: linear-gradient(135deg, #c0c0c0, #e6e6e6, #c0c0c0);
+  color: #4a4a4a;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  transform: rotateY(180deg);
+}
+
+.coin-shadow {
+  position: absolute;
+  bottom: -20px;
+  width: 100px;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.3), transparent);
+  border-radius: 50%;
+  filter: blur(8px);
+}
+
+/* Coin Animation Classes */
+.coin.flipping {
+  animation: coinFlip 3s ease-out forwards;
+}
+
+@keyframes coinFlip {
+  0% { transform: rotateY(0deg) translateY(0px); }
+  25% { transform: rotateY(450deg) translateY(-50px); }
+  50% { transform: rotateY(900deg) translateY(-30px); }
+  75% { transform: rotateY(1350deg) translateY(-10px); }
+  100% { transform: rotateY(1800deg) translateY(0px); }
+}
+
+.coin.result-heads {
+  transform: rotateY(0deg);
+}
+
+.coin.result-tails {
+  transform: rotateY(180deg);
+}
+
+.coinflip-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.choice-controls {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.choice-btn {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 15px;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 100px;
+  backdrop-filter: blur(10px);
+}
+
+.choice-btn:hover {
+  background: rgba(255, 215, 0, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.choice-btn.selected {
+  background: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  transform: scale(1.1);
+}
+
+.choice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.choice-icon {
+  font-size: 1.5rem;
+}
+
+.choice-label {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.bet-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.bet-btn {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bet-btn:hover {
+  background: rgba(255, 215, 0, 0.4);
+  transform: scale(1.1);
+}
+
+.bet-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bet-amount {
+  color: white;
+  font-weight: bold;
+  min-width: 100px;
+  text-align: center;
+}
+
+.flip-btn {
+  background: linear-gradient(to bottom, #ffd700, #daa520);
+  color: #222;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 5px 15px rgba(218, 165, 32, 0.4),
+              inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.flip-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(218, 165, 32, 0.6);
+}
+
+.flip-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(218, 165, 32, 0.6);
+}
+
+.flip-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.flip-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  transform: rotate(30deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(30deg); }
+  100% { transform: translateX(100%) rotate(30deg); }
+}
+
+.win-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  margin-top: 0;
+  padding: 1.5rem 2.5rem;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  max-width: 80%;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  z-index: 1001;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.win-message.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.win-message.lose {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.5);
+  box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+}
+
+.jackpot-label {
+  font-size: 2rem;
+  color: #ff6b6b;
+  text-shadow: 0 0 20px #ff6b6b;
+  animation: jackpotPulse 0.5s infinite alternate;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes jackpotPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.prize-label {
+  margin-top: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.lose-label {
+  margin-top: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.back-link {
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.back-link:hover {
+  color: #ffd700;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .coinflip-machine {
+    padding: 1rem;
+  }
+  
+  .coin {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .coin-side {
+    font-size: 2.5rem;
+  }
+  
+  .coin-area {
+    height: 160px;
+  }
+  
+  .choice-controls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .choice-btn {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .home-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}

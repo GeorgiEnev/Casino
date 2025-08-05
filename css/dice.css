@@ -1,0 +1,433 @@
+html, body {
+  min-height: 100%;
+  height: auto;
+  overflow-y: auto;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;   /* stack from the top, not vertically centered */
+  padding: 2rem 0;            /* breathing room above & below */
+}
+
+/* Dice Game Styles */
+.dice-container {
+  z-index: 2;
+  width: 90%;
+  max-width: 600px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balance-display {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.balance-label {
+  color: #aaa;
+}
+
+.balance-amount {
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.dice-game {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7),
+              inset 0 0 30px rgba(255, 215, 0, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+}
+
+.game-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 3D Dice Styles - Updated with working mechanics */
+.dice-3d {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: 1s ease;
+  margin: 1rem 0;
+  /* Default position showing face 1 */
+  transform: rotateX(0deg) rotateY(0deg);
+}
+
+/* Rolling animation - Updated */
+@keyframes rolling {
+  50% {
+    transform: rotateX(455deg) rotateY(455deg);
+  }
+}
+
+.dice-rolling {
+  animation: rolling 1.5s ease-out;
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  border: 5px solid #f6f3f0;
+  transform-style: preserve-3d;
+  background: linear-gradient(145deg, #dddbd8, #fff);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.1);
+  backface-visibility: hidden;
+}
+
+.face::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: #000;
+  transform: translateZ(-1px);
+}
+
+/* Updated face positions to match working source code */
+.front  { transform: translateZ(75px); }
+.back   { transform: rotateX(180deg) translateZ(75px); }
+.right  { transform: rotateY(90deg) translateZ(75px); }
+.left   { transform: rotateY(-90deg) translateZ(75px); }
+.top    { transform: rotateX(90deg) translateZ(75px); }
+.bottom { transform: rotateX(-90deg) translateZ(75px); }
+
+/* Dice dots - Updated with working patterns */
+.face::after {
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #000;
+}
+
+/* 1 pip (front face) - Single large dot */
+.front::after {
+  width: 30px;
+  height: 30px;
+  background: #f63330;
+  margin: -15px 0 0 -15px;
+}
+
+/* 6 pips (back face) */
+.back::after {
+  margin: -35px 0 0 -30px;
+  box-shadow: 40px 0 #000,
+              0 25px #000,
+              40px 25px #000,
+              0 50px #000,
+              40px 50px #000;
+}
+
+/* 2 pips (bottom face) */
+.bottom::after {
+  /* center pip (from .face::after) + one extra at bottom‑right = 2 total */
+  margin: -30px 0 0 -30px;
+  box-shadow: 
+    40px  40px 0 0 #000;
+}
+
+/* 5 pips (top face) */
+.top::after {
+  /* center pip + four corners = 5 total */
+  margin: -36px 0 0 -36px;
+  box-shadow:
+    26px  26px 0 0 #000,
+    52px  52px 0 0 #000,
+    52px   0px 0 0 #000,
+     0px  52px 0 0 #000;
+}
+
+
+/* 3 pips (right face) */
+.right::after {
+  margin: -30px 0 0 -30px;
+  box-shadow: 40px 0 #000,
+              0 40px #000,
+              40px 40px #000;
+}
+
+/* 4 pips (left face) */
+.left::after {
+  margin: -35px 0 0 -35px;
+  box-shadow: 25px 25px #000,
+              50px 50px #000;
+}
+
+/* Bet controls */
+.bet-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.8rem 1rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.bet-btn {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bet-btn:hover {
+  background: rgba(255, 215, 0, 0.4);
+  transform: scale(1.1);
+}
+
+.bet-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bet-amount {
+  color: white;
+  font-weight: bold;
+  min-width: 100px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* Home button */
+.home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.home-btn:hover {
+  background: rgba(255, 215, 0, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Number selection */
+.number-selection {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.number-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.number-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.number-btn.selected {
+  background: rgba(255, 215, 0, 0.4);
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  transform: scale(1.1);
+}
+
+/* Roll button */
+.roll-btn {
+  background: linear-gradient(to bottom, #ffd700, #daa520);
+  color: #222;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 5px 15px rgba(218, 165, 32, 0.4),
+              inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.roll-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(218, 165, 32, 0.6);
+}
+
+.roll-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(218, 165, 32, 0.6);
+}
+
+.roll-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.roll-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  transform: rotate(30deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(30deg); }
+  100% { transform: translateX(100%) rotate(30deg); }
+}
+
+/* Win message */
+.win-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  margin-top: 0;
+  padding: 1.5rem 2.5rem;
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  max-width: 80%;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  z-index: 1001;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.win-message.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.win-message.lose {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.5);
+  box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+}
+
+.jackpot-label {
+  font-size: 2rem;
+  color: #ff6b6b;
+  text-shadow: 0 0 20px #ff6b6b;
+  animation: jackpotPulse 0.5s infinite alternate;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes jackpotPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+.prize-label {
+  margin-top: 0.5rem;
+  font-size: 1.8rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dice-game {
+    padding: 1rem;
+  }
+  
+  .dice-3d {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .face {
+    font-size: 2.5rem;
+  }
+  
+  .number-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .bet-amount {
+    min-width: 80px;
+    font-size: 1rem;
+  }
+  
+  .roll-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}

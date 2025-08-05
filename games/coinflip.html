@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🪙 Coin Flip | Free Casino</title>
+  <link rel="stylesheet" href="../css/index.css" />
+  <link rel="stylesheet" href="../css/coinflip.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="curtain">
+    <div class="spotlight"></div>
+
+    <a href="../index.html" class="home-btn">
+      🏠 Home
+    </a>
+
+    <header class="site-header">
+      <h1 class="logo">Coin Flip 🪙</h1>
+    </header>
+
+    <main class="coinflip-container">
+      <div class="balance-display">
+        <span class="balance-label">Balance:</span>
+        <span class="balance-amount">$<span id="balance">1000</span></span>
+      </div>
+
+      <div class="coinflip-machine">
+        <div class="coin-area">
+          <div class="coin" id="coin">
+            <div class="coin-side heads">H</div>
+            <div class="coin-side tails">T</div>
+          </div>
+          <div class="coin-shadow"></div>
+        </div>
+
+        <div class="coinflip-controls">
+          <div class="choice-controls">
+            <button class="choice-btn" data-choice="heads" id="headsBtn">
+              <div class="choice-icon">👑</div>
+              <div class="choice-label">HEADS</div>
+            </button>
+            <button class="choice-btn" data-choice="tails" id="tailsBtn">
+              <div class="choice-icon">🦅</div>
+              <div class="choice-label">TAILS</div>
+            </button>
+          </div>
+          
+          <div class="bet-controls">
+            <button class="bet-btn" id="decrease-bet">-</button>
+            <div class="bet-amount">Bet: $<span id="current-bet">100</span></div>
+            <button class="bet-btn" id="increase-bet">+</button>
+          </div>
+          
+          <button class="flip-btn" id="flip-btn">FLIP</button>
+        </div>
+      </div>
+
+      <div class="win-message" id="win-message"></div>
+    </main>
+
+    
+  </div>
+
+  <audio id="coinflip-sound" src="../coinflip_sounds/flip.wav" preload="auto"></audio>
+
+  <script src="../js/index.js"></script>
+  <script src="../js/coinflip.js"></script>
+
+</body>
+</html>

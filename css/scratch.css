@@ -1,0 +1,578 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    min-height: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #000;
+    color: #fff;
+    height: 100vh;
+    overflow: auto;
+}
+
+.curtain {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to right,
+        rgba(200,0,0,0.3) 0, rgba(200,0,0,0.3) 30px,
+        rgba(0,0,0,0.3) 30px, rgba(0,0,0,0.3) 60px
+    );
+    animation: curtainSlide 20s linear infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+@keyframes curtainSlide {
+    from { background-position: 0 0; }
+    to { background-position: 1200px 0; }
+}
+
+/* EXACT spotlight from index page */
+.spotlight {
+    position: absolute;
+    top: 45%;
+    left: -100%;
+    width: 400%;
+    height: 350%;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent 60%);
+    transform: rotate(45deg);
+    animation: sweep 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes sweep {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    50% { transform: translateX(100%) rotate(45deg); }
+    100% { transform: translateX(-100%) rotate(45deg); }
+}
+
+.home-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.home-btn:hover {
+    background: rgba(255, 215, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7),
+                inset 0 0 30px rgba(255, 215, 0, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+    margin: auto; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+}
+
+h1 {
+    color: #ffd700;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.balance-display {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.balance-label {
+    color: #aaa;
+}
+
+.balance-amount {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.scratch-area {
+    position: relative;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+    border: 3px solid #e0e0e0;
+}
+
+.base {
+    width: 300px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.base::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.prize-display {
+    z-index: 2;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: 3px solid #fff;
+}
+
+.prize-amount {
+    font-weight: bold;
+    font-size: 2.5rem;
+    color: #17013b;
+    text-shadow: 
+        1px 1px 0px #fff,
+        -1px -1px 0px #fff,
+        1px -1px 0px #fff,
+        -1px 1px 0px #fff,
+        0 0 10px rgba(23, 1, 59, 0.3);
+    animation: prizeGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes prizeGlow {
+    0% { 
+        transform: scale(1);
+        text-shadow: 
+            1px 1px 0px #fff,
+            -1px -1px 0px #fff,
+            1px -1px 0px #fff,
+            -1px 1px 0px #fff,
+            0 0 10px rgba(23, 1, 59, 0.3);
+    }
+    100% { 
+        transform: scale(1.05);
+        text-shadow: 
+            1px 1px 0px #fff,
+            -1px -1px 0px #fff,
+            1px -1px 0px #fff,
+            -1px 1px 0px #fff,
+            0 0 15px rgba(23, 1, 59, 0.5);
+    }
+}
+
+#scratch {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: none;
+    border-radius: 10px;
+    z-index: 5;
+    touch-action: none;
+}
+
+.game-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.game-btn {
+    background: linear-gradient(to bottom, #ffd700, #daa520);
+    color: #333;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 150px;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.6);
+}
+
+.game-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.game-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #ccc;
+    color: #666;
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.game-btn:hover:not(:disabled) .btn-icon {
+    transform: scale(1.2);
+}
+
+#resultMessage {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffd700;
+    min-height: 25px;
+    margin-top: 10px;
+}
+
+.coin-cursor {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 10000;
+    display: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.coin-face {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, #ffed4e, #ffd700, #daa520);
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #8b4513;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        inset 0 2px 4px rgba(255, 255, 255, 0.4),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+        0 2px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.coin-face::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+.coin-scratching {
+    animation: coinScratch 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes coinScratch {
+    0% { 
+        transform: translate(-50%, -50%) rotate(-3deg) scale(1); 
+    }
+    100% { 
+        transform: translate(-50%, -50%) rotate(3deg) scale(1.1); 
+    }
+}
+
+.win-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+.win-modal.show {
+    display: flex;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 3px solid #ffd700;
+    max-width: 90%;
+    animation: modalSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalSlideIn {
+    from { 
+        transform: scale(0.7) translateY(-50px);
+        opacity: 0;
+    }
+    to { 
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #17013b;
+    margin-bottom: 20px;
+}
+
+.modal-prize {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin: 20px 0;
+    animation: prizeReveal 1s ease-out;
+}
+
+@keyframes prizeReveal {
+    0% { 
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2) rotate(20deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.modal-message {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.modal-btn {
+    background: linear-gradient(to bottom, #ffd700, #daa520);
+    color: #333;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.6);
+}
+
+.jackpot .modal-header {
+    color: #ff6b6b;
+    animation: jackpotGlow 1s ease-in-out infinite alternate;
+}
+
+.jackpot .modal-prize {
+    color: #ff6b6b;
+    animation: prizeReveal 1s ease-out, jackpotPulse 1s ease-in-out infinite 1s;
+}
+
+@keyframes jackpotGlow {
+    0% { 
+        text-shadow: 0 0 10px #ff6b6b;
+        transform: scale(1);
+    }
+    100% { 
+        text-shadow: 0 0 30px #ff6b6b, 0 0 40px #ff6b6b;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes jackpotPulse {
+    0% { 
+        transform: scale(1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 20px #ff6b6b, 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+}
+
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 6px;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 1rem 0;
+    }
+    
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .base,
+    #scratch {
+        width: 260px;
+        height: 170px;
+    }
+    
+    .prize-display {
+        width: 100px;
+        height: 100px;
+        padding: 15px;
+    }
+    
+    .prize-amount {
+        font-size: 2rem;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .game-btn {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .coin-cursor {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .coin-face {
+        font-size: 16px;
+    }
+    
+    .modal-content {
+        padding: 30px 20px;
+    }
+    
+    .modal-header {
+        font-size: 1.5rem;
+    }
+    
+    .modal-prize {
+        font-size: 2.5rem;
+    }
+    
+    .home-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+/* falling chips */
+@keyframes chipFall {
+  0%   { transform: translateY(-50px) rotate(0deg); opacity:1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity:0; }
+}
+
+.chip {
+  position:absolute;
+  top:-20px;
+  width:20px; height:20px;
+  background: radial-gradient(circle at 30% 30%, gold, darkgoldenrod);
+  border-radius:50%;
+  animation: chipFall linear infinite;
+  pointer-events:none;
+}

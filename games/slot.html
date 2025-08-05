@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>🎰 Slot Machine | Free Casino</title>
+  <link rel="stylesheet" href="../css/index.css" />
+  <link rel="stylesheet" href="../css/slot.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="curtain">
+    <div class="spotlight"></div>
+
+    <a href="../index.html" class="home-btn">
+      🏠 Home
+    </a>
+
+    <header class="site-header">
+      <h1 class="logo">Slot Machine 🎰</h1>
+    </header>
+
+    <main class="slot-container">
+      <div class="balance-display">
+        <span class="balance-label">Balance:</span>
+        <span class="balance-amount">$<span id="balance">1000</span></span>
+      </div>
+
+      <div class="slot-machine">
+        <div class="slot-reels">
+          <div class="reel-container">
+            <div class="reel" id="reel1"></div>
+          </div>
+          <div class="reel-container">
+            <div class="reel" id="reel2"></div>
+          </div>
+          <div class="reel-container">
+            <div class="reel" id="reel3"></div>
+          </div>
+        </div>
+
+        <div class="slot-controls">
+          <div class="bet-controls">
+            <button class="bet-btn" id="decrease-bet">-</button>
+            <div class="bet-amount">Bet: $<span id="current-bet">10</span></div>
+            <button class="bet-btn" id="increase-bet">+</button>
+          </div>
+          <button class="spin-btn" id="spin-btn">SPIN</button>
+        </div>
+      </div>
+
+      <div class="win-message" id="win-message"></div>
+    </main>
+
+    
+  </div>
+
+  <!-- Sound effects -->
+  <audio id="roll-sound" src="../slot_sounds/roll.wav" preload="auto"></audio>
+  <audio id="jackpot-sound" src="../slot_sounds/jackpot.wav" preload="auto"></audio>
+
+  <script src="../js/index.js"></script>
+  <script src="../js/slot.js"></script>
+
+</body>
+</html>

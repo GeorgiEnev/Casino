@@ -1,0 +1,418 @@
+/* reset */
+* { box-sizing: border-box; margin:0; padding:0 }
+
+/* base */
+body {
+  font-family: 'Roboto',sans-serif;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  height:100vh;
+}
+
+/* bold velvet stripes */
+.curtain {
+  position: relative;
+  width:100%; height:100%;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(200,0,0,0.3) 0, rgba(200,0,0,0.3) 30px,
+    rgba(0,0,0,0.3) 30px, rgba(0,0,0,0.3) 60px
+  );
+  animation: curtainSlide 20s linear infinite;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  overflow:hidden;
+}
+@keyframes curtainSlide {
+  from { background-position: 0 0; }
+  to   { background-position:1200px 0; }
+}
+
+/* sweeper light */
+.spotlight {
+  position:absolute;
+  top:45%; left:-100%;
+  width:400%; height:350%;
+  background: radial-gradient(circle at center,rgba(255,255,255,0.2),transparent 60%);
+  transform: rotate(45deg);
+  animation: sweep 6s ease-in-out infinite;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes sweep {
+  0%   { transform:translateX(-100%) rotate(45deg); }
+  50%  { transform:translateX(100%)  rotate(45deg); }
+  100% { transform:translateX(-100%) rotate(45deg); }
+}
+
+/* logo */
+.site-header {
+  z-index:2;
+  padding:2rem 1rem 0;
+  text-align:center;
+  position: relative;
+}
+.logo {
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem;
+  color:#ffd700;
+  text-shadow:0 0 15px rgba(255,215,0,0.9);
+}
+.subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.5rem;
+  letter-spacing: 2px;
+}
+
+/* Jackpot display */
+.jackpot-display {
+  margin: 1.5rem auto;
+  padding: 0.8rem 1.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  display: inline-block;
+  animation: jackpotPulse 3s infinite;
+}
+
+.jackpot-label {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  color: #ffd700;
+  text-transform: uppercase;
+}
+
+.jackpot-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 0.3rem;
+}
+
+@keyframes jackpotPulse {
+  0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 215, 0, 0); }
+  50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+  100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 215, 0, 0); }
+}
+
+/* Welcome message */
+.welcome-message {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.sparkle-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ffd700, transparent);
+  margin: 0.5rem auto;
+  width: 60%;
+  position: relative;
+  overflow: hidden;
+}
+
+.sparkle-line::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 10px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  animation: sparkleMove 3s linear infinite;
+  box-shadow: 0 0 10px 2px white;
+}
+
+@keyframes sparkleMove {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* frosted panel for games */
+.game-panel {
+  z-index:2;
+  width:90%;
+  max-width:1000px;
+  margin:2rem auto;
+  padding:2rem 1rem;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  border-radius:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.7);
+  animation: subtlePulse 8s infinite;
+}
+
+/* grid of cards */
+.game-nav {
+  display:grid;
+  grid-template-columns: repeat(5,1fr);
+  gap:1.5rem;
+}
+@media(max-width:1000px){
+  .game-nav { grid-template-columns: repeat(4,1fr); }
+}
+@media(max-width:800px){
+  .game-nav { grid-template-columns: repeat(3,1fr); }
+}
+@media(max-width:600px){
+  .game-nav { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:400px){
+  .game-nav { grid-template-columns: 1fr; }
+}
+
+/* game card styling */
+.game-card {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:1rem .5rem;
+  background: rgba(255,255,255,0.05);
+  border:2px solid rgba(255,255,255,0.2);
+  border-radius:12px;
+  text-decoration:none;
+  transition: transform .3s, box-shadow .3s, border-color .3s;
+  overflow: hidden;
+}
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.1) 45%,
+    rgba(255, 215, 0, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 55%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  animation: cardShine 5s infinite;
+}
+.game-card .icon {
+  font-size:2.5rem;
+  margin-bottom:.5rem;
+  position: relative;
+  z-index: 1;
+}
+.game-card .title {
+  font-size:1rem;
+  font-weight:bold;
+  text-shadow:0 0 5px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 1;
+}
+.game-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:0 12px 30px rgba(255,215,0,0.5);
+  border-color:#ffd700;
+}
+.game-card:hover::before {
+  animation: cardShine 1.5s infinite;
+}
+
+@keyframes cardShine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+}
+
+/* Audio Player Styles */
+.audio-player {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.music-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #ffd700;
+  color: #ffd700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.music-toggle:hover {
+  background: #ffd700;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.volume-control {
+  width: 100px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.audio-player:hover .volume-control {
+  opacity: 1;
+}
+
+.volume-control input[type="range"] {
+  width: 100%;
+  accent-color: #ffd700;
+  cursor: pointer;
+}
+
+/* floating cards animation */
+.floating-cards {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card {
+  position: absolute;
+  width: 60px;
+  height: 90px;
+  background: white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #d00;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.15;
+  animation: floatCard 15s infinite linear;
+}
+
+.card:nth-child(1) {
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+  animation-duration: 20s;
+}
+
+.card:nth-child(2) {
+  top: 30%;
+  left: 80%;
+  animation-delay: 3s;
+  animation-duration: 25s;
+}
+
+.card:nth-child(3) {
+  top: 70%;
+  left: 15%;
+  animation-delay: 7s;
+  animation-duration: 18s;
+}
+
+.card:nth-child(4) {
+  top: 85%;
+  left: 70%;
+  animation-delay: 5s;
+  animation-duration: 22s;
+}
+
+@keyframes floatCard {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-50px) rotate(5deg); }
+  50% { transform: translateY(-20px) rotate(-5deg); }
+  75% { transform: translateY(-70px) rotate(3deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* Subtle pulse animation for the game panel */
+@keyframes subtlePulse {
+  0% { box-shadow: 0 8px 24px rgba(0,0,0,0.7); }
+  50% { box-shadow: 0 8px 30px rgba(255,215,0,0.3); }
+  100% { box-shadow: 0 8px 24px rgba(0,0,0,0.7); }
+}
+
+/* falling chips */
+@keyframes chipFall {
+  0%   { transform: translateY(-50px) rotate(0deg); opacity:1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity:0; }
+}
+.chip {
+  position:absolute;
+  top:-20px;
+  width:20px; height:20px;
+  background: radial-gradient(circle at 30% 30%, gold, darkgoldenrod);
+  border-radius:50%;
+  animation: chipFall linear infinite;
+  pointer-events:none;
+}
+
+/* New decorative elements */
+.corner-decor {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.15;
+  z-index: 1;
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+.corner-decor:hover {
+  opacity: 0.3;
+}
+
+.top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Ripple effect */
+.ripple {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 1s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
