@@ -130,7 +130,7 @@ cd Casino
 
 - Smooth CSS flip + sound effect
 
-## 📄 License
+# 📄 License
 MIT License
 
 Copyright (c) 2025 Georgi Enev
