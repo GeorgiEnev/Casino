@@ -400,6 +400,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       console.log('No win found');
       showLoseMessage();
+      
+      // Check if player is out of money
+      if (balance < 100) {
+        setTimeout(() => {
+          showResetMessage();
+          balance = 1000;
+          updateBalance();
+          updateButtons();
+        }, 3000);
+      }
     }
   }
 
@@ -431,6 +441,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2000);
   }
 
+  // Show balance reset message
+  function showResetMessage() {
+    winMessage.innerHTML = `
+      <div class="prize-label">💰 Balance Reset!</div>
+      <div style="font-size: 1rem; margin-top: 0.5rem; color: #66ff66;">Your balance has been reset to $1000!</div>
+    `;
+    winMessage.classList.add('show');
+    winMessage.classList.remove('lose');
+    
+    setTimeout(() => {
+      winMessage.classList.remove('show');
+    }, 4000);
+  }
+
   // Show enhanced win message with different styles
   function showWinMessage(amount, multiplier, isJackpot, winType, isProgressiveJackpot) {
     if (isProgressiveJackpot) {
@@ -447,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     } else {
       winMessage.innerHTML = `
-        <div class="prize-label">🎊 You won $${amount}! 🎊</div>
+        <div class="prize-label">🎊 You won ${amount}! 🎊</div>
         <div style="font-size: 1rem; margin-top: 0.5rem; color: #aaa;">${winType} (${multiplier}x)</div>
       `;
     }

@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // PERFECT pointer calculation
- function getPointerNumber(rotation) {
+  function getPointerNumber(rotation) {
     const segmentAngle = 360 / wheelNumbers.length;
 
     // Normalize rotation to 0-360 range
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // we need to find the opposite segment that ends up under the pointer
     const adjustedIndex = (wheelNumbers.length - (rawSegmentIndex + 1)) % wheelNumbers.length;
     return wheelNumbers[adjustedIndex];
-}
+  }
 
   // Update UI functions
   function updateBalance() {
@@ -222,6 +222,16 @@ document.addEventListener('DOMContentLoaded', () => {
           loseSound.play();
         } catch(e) {}
       }
+      
+      // Check if player is out of money
+      if (balance < 100) {
+        setTimeout(() => {
+          showResetMessage();
+          balance = 1000;
+          updateBalance();
+          updateButtons();
+        }, 5000);
+      }
     }
   }
 
@@ -255,6 +265,19 @@ document.addEventListener('DOMContentLoaded', () => {
     winMessage.classList.add('show', 'lose');
     
     setTimeout(() => winMessage.classList.remove('show', 'lose'), 4000);
+  }
+
+  function showResetMessage() {
+    winMessage.innerHTML = `
+      <div class="prize-label">💰 Balance Reset!</div>
+      <div style="font-size: 1rem; margin-top: 0.5rem; color: #66ff66;">Your balance has been reset to $1000!</div>
+    `;
+    winMessage.classList.add('show');
+    winMessage.classList.remove('lose');
+    
+    setTimeout(() => {
+      winMessage.classList.remove('show');
+    }, 4000);
   }
 
   function getNumberColorName(number) {

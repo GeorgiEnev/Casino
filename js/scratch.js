@@ -1,5 +1,5 @@
 // Game state variables
-let balance = parseInt(localStorage.getItem('casinoBalance')) || 1000;
+let balance = parseInt(localStorage.getItem('casinoBalance')) || 1000;;
 let currentPrize = 0;
 let ticketActive = false;
 let isScratching = false;
@@ -57,7 +57,7 @@ const init = () => {
     });
 };
 
-// Update balance display and localStorage
+// Update balance display and sessionStorage
 const updateBalance = () => {
     balanceElement.textContent = balance;
     localStorage.setItem('casinoBalance', balance.toString());
@@ -96,7 +96,7 @@ const generatePrize = () => {
 
 // Buy a new ticket
 const buyTicket = () => {
-    if (balance < 200 || ticketActive) return;
+    if (balance < 100 || ticketActive) return;
 
     // Deduct ticket cost
     balance -= 200;
@@ -400,8 +400,8 @@ const showPrizeModal = () => {
             winModal.classList.remove('jackpot');
         }
         
-        modalPrize.textContent = `${currentPrize}`;
-        resultMessage.textContent = `🎊 You won ${currentPrize}! 🎊`;
+        modalPrize.textContent = `$${currentPrize}`;
+        resultMessage.textContent = `🎊 You won $${currentPrize}! 🎊`;
         resultMessage.style.color = "#2e7d32";
     } else {
         modalHeader.textContent = "😔 No Prize This Time";
@@ -424,6 +424,30 @@ const closePrizeModal = () => {
     
     winModal.classList.remove('show', 'jackpot');
     resetGame();
+    
+    // Check if player is out of money and reset balance if needed
+    if (balance < 100) {
+        setTimeout(() => {
+            showBalanceResetMessage();
+            balance = 1000;
+            updateBalance();
+            updateButtons();
+        }, 1000);
+    }
+};
+
+// Show balance reset message (similar to coinflip.js)
+const showBalanceResetMessage = () => {
+    modalHeader.textContent = "💰 Balance Reset!";
+    modalPrize.textContent = "$1000";
+    modalMessage.textContent = "Your balance has been reset to $1000! Keep playing!";
+    winModal.classList.remove('jackpot');
+    winModal.classList.add('show');
+    
+    // Auto-close after 4 seconds
+    setTimeout(() => {
+        winModal.classList.remove('show');
+    }, 4000);
 };
 
 // Create confetti effect for jackpot wins

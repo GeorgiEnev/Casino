@@ -84,14 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners
     rollBtn.addEventListener('click', startRoll);
     increaseBetBtn.addEventListener('click', () => changeBet(100));
-    decreaseBetBtn.addEventListener('click', () => changeBet(1000));
+    decreaseBetBtn.addEventListener('click', () => changeBet(-100));
     
     numberButtons.forEach(btn => {
       btn.addEventListener('click', () => selectNumber(parseInt(btn.dataset.number)));
     });
   }
   
-  // Update balance display - removed localStorage save
+  // Update balance display and save to localStorage
   function updateBalance() {
     balanceElement.textContent = balance;
     localStorage.setItem('casinoBalance', balance.toString());
@@ -177,6 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
         loseSound.currentTime = 0;
         loseSound.play();
       }
+      
+      // Check if player is out of money
+      if (balance < 100) {
+        setTimeout(() => {
+          showResetMessage();
+          balance = 1000;
+          updateBalance();
+          updateButtons();
+        }, 3000);
+      }
     }
   }
   
@@ -209,6 +219,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       winMessage.classList.remove('show', 'lose');
     }, 2000);
+  }
+  
+  // Show balance reset message
+  function showResetMessage() {
+    winMessage.innerHTML = `
+      <div class="prize-label">💰 Balance Reset!</div>
+      <div style="font-size: 1rem; margin-top: 0.5rem; color: #66ff66;">Your balance has been reset to $1000!</div>
+    `;
+    winMessage.classList.add('show');
+    winMessage.classList.remove('lose');
+    
+    setTimeout(() => {
+      winMessage.classList.remove('show');
+    }, 4000);
   }
   
   // Celebration effects based on win amount
