@@ -285,6 +285,12 @@ body {
   transform: translate(-50%, -50%) scale(1);
 }
 
+.win-message.lose {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.5);
+  box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+}
+
 .jackpot-label {
   font-size: 2rem;
   color: #ff6b6b;
@@ -301,6 +307,13 @@ body {
 .prize-label {
   margin-top: 0.5rem;
   font-size: 1.8rem;
+}
+
+.lose-label {
+  font-size: 1.8rem;
+  color: #ff6b6b;
+  text-shadow: 0 0 10px #ff6b6b;
+  margin-bottom: 0.5rem;
 }
 
 .back-link {
@@ -324,6 +337,10 @@ body {
 .symbol[data-symbol="🔔"] { color: #66ccff; }
 .symbol[data-symbol="💎"] { color: #66ffff; }
 .symbol[data-symbol="💰"] { color: #66ff66; }
+.symbol[data-symbol="⭐"] { color: #ffff88; }
+.symbol[data-symbol="🎰"] { color: #ffaa00; }
+.symbol[data-symbol="❌"] { color: #ff4444; }
+.symbol[data-symbol="💸"] { color: #ff6666; }
 
 /* Spinning animation */
 .reel.spinning {
